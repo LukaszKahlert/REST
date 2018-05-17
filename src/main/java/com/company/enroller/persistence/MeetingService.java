@@ -18,9 +18,21 @@ public class MeetingService {
 	}
 
 	public Collection<Meeting> getAll() {
-		String hql = "FROM Meeting";
-		Query query = connector.getSession().createQuery(hql);
-		return query.list();
+//		String hql = "FROM Meeting";
+//		Query query = connector.getSession().createQuery(hql);
+//		return query.list();
+		return connector.getSession().createCriteria(Meeting.class).list();
+	}
+	
+	public Meeting findById(long l) {
+		return (Meeting) connector.getSession().get(Meeting.class, l);
+
+	}
+
+	public void addMeeting(Meeting meeting) {
+		Transaction transaction = connector.getSession().beginTransaction();
+		connector.getSession().save(meeting);
+		transaction.commit();
 	}
 
 }
